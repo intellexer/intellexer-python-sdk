@@ -1,0 +1,14 @@
+EffectiveSoft is a team of experienced developers, computational linguists and experts. R&D department of EffectiveSoft specializes in knowledge management and enterprise workflow. We have developed a wide range of Intellexer semantic tools that enable users to solve a number of problems in the field of information retrieval and management. For more detailed information see Case Studies.
+
+Why will it be interesting for me?
+All the knowledge you need is distributed into thousands of electronic documents, stored at web-sites, databases and your company’s computers. Our unique semantic tools will help you to:
+
+retrieve and structure necessary information (sentiments, opinion, named entities, relations, facts, etc.)
+find relevant answers for your questions
+combine all documents into one entire knowledge management system.
+What we offer
+Intellexer software is a family of semantic products for information retrieval, and knowledge and document management. We offer online API, SDK, and desktop software all of which can be used to enhance capabilities of existing systems or develop new products for information processing and data management.
+
+Moreover, we offer knowledge management automation services and solve custom tasks associated with electronic documents processing, their classification and data retrieval process.
+
+Our knowledge management experts, analysts and consultants solve complicated tasks and apply non-standard approaches. We are pleased to share our experience to solve your every problem.
