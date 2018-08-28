@@ -8,7 +8,7 @@ def ConceptTree(data):
 			if 'children' in data
 		),
 		main_pharse=data["mp"],
-		sentence_ids=data[""],
+		sentence_ids=data["sentenceIds"],
 		status=data["st"],
 		text=data["text"],
 		weight=data["w"],

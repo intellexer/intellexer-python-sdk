@@ -16,7 +16,7 @@ class Comparator(BaseRequest):
 					title=response[i]["title"],
 					url=response[i]["url"],
 					error=response[i]["error"],
-					size_format=response[i]["size_format"],
+					size_format=response[i]["sizeFormat"],
 				) for i in ('document1', 'document2')
 			),
 		)

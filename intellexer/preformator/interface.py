@@ -1,22 +1,15 @@
 from collections import namedtuple
 
 
-CompareResult = namedtuple(
-	'CompareResult',
+ParseResult = namedtuple(
+	'ParseResult',
 	(
-		'proximity',
-		'documents',
-	)
-)
-
-Documents = namedtuple(
-	'Documents',
-	(
-		'id',
+		'structure',
+		'topics',
+		'language',
+		'language_id',
+		'input_size',
 		'size',
-		'title',
-		'url',
-		'error',
-		'size_format',
+		'text',
 	)
 )

@@ -17,36 +17,37 @@ class BaseRequest:
 		)
 
 	def __params(self, params):
-		defaults = {
-			'api_key': self._api_key,
-		}
-		defaults.update(params)
-		print(defaults)
-		return defaults
+		params.update({
+			'apikey': self._api_key,
+		})
+		return params
 
-	def _get(self, path, params):
+	def __response_handler(self, response, as_json):
+		# print(response.__dict__)
+		response_status = response.status_code
+
+		if response_status in range(400, 405):
+			raise errors.BadRequest400
+
+		if as_json:
+			return response.json()
+
+		return response
+
+	def _get(self, path, params, **kwargs):
+		as_json = kwargs.pop('as_json', True)
 		response = requests.get(
 			url=self.__url(path),
 			params=self.__params(params),
+			**kwargs
 		)
-
-		print(response.status_code)
-
-		if response.status_code == 400:
-			raise errors.BadRequest400
-
-		return response.json()
+		return self.__response_handler(response, as_json)
 
 	def _post(self, path, params, **kwargs):
+		as_json = kwargs.pop('as_json', True)
 		response = requests.post(
 			url=self.__url(path),
 			params=self.__params(params),
 			**kwargs
 		)
-
-		print(response.status_code)
-
-		if response.status_code == 400:
-			raise errors.BadRequest400
-
-		return response.json()
+		return self.__response_handler(response, as_json)

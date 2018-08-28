@@ -1,22 +1,31 @@
 from collections import namedtuple
 
 
-CompareResult = namedtuple(
-	'CompareResult',
+V = namedtuple(
+	'V',
 	(
-		'proximity',
-		'documents',
+		'correction_text',
+		'weight',
 	)
 )
 
-Documents = namedtuple(
-	'Documents',
+Correction = namedtuple(
+	'Correction',
 	(
-		'id',
-		'size',
-		'title',
-		'url',
-		'error',
-		'size_format',
+		'length',
+		'index',
+		'offset',
+		'candidates',
+	)
+)
+
+SpellCheckerResult = namedtuple(
+	'SpellCheckerResult',
+	(
+		'input_size',
+		'sentences_count',
+		'processed_sentences',
+		'source_sentences',
+		'corrections',
 	)
 )

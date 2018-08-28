@@ -1,22 +1,47 @@
 from collections import namedtuple
 
 
-CompareResult = namedtuple(
-	'CompareResult',
+Sentiment = namedtuple(
+	'Sentiment',
 	(
-		'proximity',
-		'documents',
+		'author',
+		'dt',		# FIXME: wtf?!
+		'id',
+		'title',
+		'weight',
 	)
 )
 
-Documents = namedtuple(
-	'Documents',
+Sentence = namedtuple(
+	'Sentence',
 	(
-		'id',
-		'size',
-		'title',
-		'url',
-		'error',
-		'size_format',
+		'positive_words',
+		'negative_words',
+		'sentiment_object',
+		'sid',
+		'text',
+		'weight',
+	)
+)
+
+Opinions = namedtuple(
+	'Opinions',
+	(
+		'children',
+		'f',		# FIXME: wtf?!
+		'rs',		# FIXME: wtf?!
+		't',		# FIXME: wtf?!
+		'weight',
+	)
+)
+
+SentimentAnalyzerResult = namedtuple(
+	'SentimentAnalyzerResult',
+	(
+		'sentiment_count',
+		'ontology',
+		'sentences',
+		'opinions',
+		'sentiments',
 	)
 )

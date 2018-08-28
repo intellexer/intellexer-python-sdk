@@ -1,22 +1,39 @@
 from collections import namedtuple
 
 
-CompareResult = namedtuple(
-	'CompareResult',
+Text = namedtuple(
+	'Text',
 	(
-		'proximity',
-		'documents',
+		'content',
+		'begin_offset',
+		'end_offset',
 	)
 )
 
-Documents = namedtuple(
-	'Documents',
+Token = namedtuple(
+	'Token',
 	(
-		'id',
-		'size',
-		'title',
-		'url',
-		'error',
-		'size_format',
+		'text',
+		'part_of_speech_tag',
+		'lemma',
+	)
+)
+
+Relation = namedtuple(
+	'Relation',
+	(
+		'subject',
+		'verb',
+		'object',
+		'adverbial_phrase',
+	)
+)
+
+Sentence = namedtuple(
+	'Sentence',
+	(
+		'tokens',
+		'text',
+		'relations',
 	)
 )

@@ -1,16 +1,39 @@
 from collections import namedtuple
 
 
-CompareResult = namedtuple(
-	'CompareResult',
+EntryType = namedtuple(
+	'EntryType',
 	(
-		'proximity',
-		'documents',
+		'id',
+		'name',
 	)
 )
 
-Documents = namedtuple(
-	'Documents',
+RelationTree = namedtuple(
+	'RelationTree',
+	(
+		'children',
+		'count',
+		'dependency',
+		'sentence_ids',
+		'text',
+		'type',
+	)
+)
+
+Entity = namedtuple(
+	'Entity',
+	(
+		'sentence_ids',
+		'type',
+		'wc',		# FIXME: wtf?!
+		'text',
+	)
+)
+
+
+Document = namedtuple(		# FIXME: comparator.interface.Document
+	'Document',
 	(
 		'id',
 		'size',
@@ -18,5 +41,15 @@ Documents = namedtuple(
 		'url',
 		'error',
 		'size_format',
+	)
+)
+
+NamedEntityRecognizerResult = namedtuple(
+	'NamedEntityRecognizerResult',
+	(
+		'document',
+		'entities',
+		'sentences',
+		'relations_tree',
 	)
 )
