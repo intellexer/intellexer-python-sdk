@@ -1,11 +1,12 @@
 from ..core.request_handler import BaseRequest
-from .interface import SpellCheckerResult
+from .constructors import SpellCheckerResult
 
 
 class SpellChecker(BaseRequest):
 	def text(self, text, **kwargs):
 		path = 'checkTextSpelling'
-		params = {
+
+		fields = {
 			'errorBound': kwargs.get('error_bound', 3),
 			'errorTune': kwargs.get('error_tune', 1),
 			'language': kwargs.get('language', 'english').upper(),
@@ -14,7 +15,6 @@ class SpellChecker(BaseRequest):
 			'separateLines': str(kwargs.get('wrapConcepts', False)).lower(),
 		}
 
-		response = self._post(path, params, data=text)
+		response = self._post(path, fields, body=text)
 		return SpellCheckerResult(response)
 
-	__call__ = text

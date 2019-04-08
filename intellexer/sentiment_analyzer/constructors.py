@@ -10,12 +10,13 @@ def Sentiment(data):
 	if not data:
 		return None
 
-	return interface.Sentiment(
-		author=data['author'],
-		dt=data['dt'],
-		id=data['id'],
-		title=data['title'],
-		weight=data['w'],
+	return tuple(interface.Sentiment(
+			author=sentiment['author'],
+			dt=sentiment['dt'],
+			id=sentiment['id'],
+			title=sentiment['title'],
+			weight=sentiment['w'],
+		) for sentiment in data
 	)
 
 
@@ -23,13 +24,14 @@ def Sentence(data):
 	if not data:
 		return None
 
-	return interface.Sentence(
-		positive_words=tuple(positive_words_re.findall(data['text'])),
-		negative_words=tuple(negative_words_re.findall(data['text'])),
-		sentiment_object=tuple(sentiment_object_re.findall(data['text'])),
-		sid=data['sid'],
-		text=data['text'],
-		weight=data['w'],
+	return tuple(interface.Sentence(
+			positive_words=tuple(positive_words_re.findall(sentence['text'])),
+			negative_words=tuple(negative_words_re.findall(sentence['text'])),
+			sentiment_object=tuple(sentiment_object_re.findall(sentence['text'])),
+			sid=sentence['sid'],
+			text=sentence['text'],
+			weight=sentence['w'],
+		) for sentence in data
 	)
 
 

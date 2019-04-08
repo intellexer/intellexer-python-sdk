@@ -31,7 +31,6 @@ Entity = namedtuple(
 	)
 )
 
-
 Document = namedtuple(		# FIXME: comparator.interface.Document
 	'Document',
 	(

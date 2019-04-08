@@ -29,14 +29,15 @@ def EntryType(entry_id):
 
 
 def RelationTree(data):
-	return interface.RelationTree(
-		children=tuple(RelationTree(i) for i in data['children']),
-		count=data['count'],
-		dependency=data['dependency'],
-		sentence_ids=data['sentenceIds'],
-		text=data['text'],		# FIXME: linguistic_processor.interface.Text
-		type=data['type'],		# FIXME: EntryType?
-	)
+	if data:
+		return interface.RelationTree(
+			children=tuple(RelationTree(i) for i in data['children']),
+			count=data['count'],
+			dependency=data['dependency'],
+			sentence_ids=data['sentenceIds'],
+			text=data['text'],		# FIXME: linguistic_processor.interface.Text
+			type=data['type'],		# FIXME: EntryType?
+		)
 
 
 def Entity(data):
@@ -50,19 +51,20 @@ def Entity(data):
 
 def Entityes(data):
 	if data is not None:
-		for entity in data['entities']:
+		for entity in data:
 			yield Entity(entity)
 
 
 def Document(data):
-	return interface.Document(
-		id=data['id'],
-		size=data['size'],
-		title=data['title'],
-		url=data['url'],
-		error=data['error'],
-		size_format=data['sizeFormat'],
-	)
+	if data:
+		return interface.Document(
+			id=data['id'],
+			size=data['size'],
+			title=data['title'],
+			url=data['url'],
+			error=data['error'],
+			size_format=data['sizeFormat'],
+		)
 
 
 def NamedEntityRecognizerResult(data):
@@ -71,5 +73,5 @@ def NamedEntityRecognizerResult(data):
 		entities=tuple(Entityes(data.get("entities"))),
 		# FIXME: linguistic_processor.interface.Sentence
 		sentences=data["sentences"],
-		relation_tree=RelationTree(data.get("relationsTree")),
+		relations_tree=RelationTree(data.get("relationsTree")),
 	)

@@ -8,3 +8,19 @@ from .preformator import Preformator
 from .sentiment_analyzer import SentimentAnalyzer
 from .spell_checker import SpellChecker
 from .summarizer import Summarizer
+from .topic_modelling import TopicModelling
+
+
+__all__ = (
+	'Clusterizer',
+	'Comparator',
+	'LanguageRecognizer',
+	'LinguisticProcessor',
+	'NamedEntityRecognizer',
+	'NaturalLanguageInterface',
+	'Preformator',
+	'SentimentAnalyzer',
+	'SpellChecker',
+	'Summarizer',
+	'TopicModelling',
+)

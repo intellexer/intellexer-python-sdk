@@ -7,7 +7,7 @@ from .constructors import ConceptTree
 class Clusterizer(BaseRequest):
 	__slots__ = BaseRequest.__slots__
 
-	def __params(self, **kwargs):
+	def __fields(self, **kwargs):
 		return {
 			'fullTextTrees': str(kwargs.get('fullTextTrees', False)).lower(),
 			'loadSentences': str(kwargs.get('loadSentences', False)).lower(),
@@ -46,32 +46,33 @@ class Clusterizer(BaseRequest):
 
 	def url(self, url, **kwargs):
 		path = 'clusterize'
-		params = self.__params(**kwargs)
+		fields = self.__fields(**kwargs)
 
-		params.update({
+		fields.update({
 			'url': url,
 		})
 
-		response = self._get(path, params)
+		response = self._get(path, fields)
 
 		return self.__build_response(response)
 
 	def text(self, text, **kwargs):
 		path = 'clusterizeText'
-		params = self.__params(**kwargs)
+		fields = self.__fields(**kwargs)
 
-		response = self._post(path, params, data=text)
+		response = self._post(path, fields, body=text)
 
 		return self.__build_response(response)
 
 	def file(self, file, **kwargs):
 		path = 'clusterizeFileContent'
-		params = self.__params(**kwargs)
+		fields = self.__fields(**kwargs)
 
-		params.update({
-			'fileName': '2.txt',
+		fields.update({
+			# 'fileName': '2.txt',
+			'fileName': file.name,
 		})
 
-		response = self._post(path, params, files=file)
+		response = self._post(path, fields, body=file)
 
 		return self.__build_response(response)

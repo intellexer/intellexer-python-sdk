@@ -1,3 +1,5 @@
+import json
+from ..core.util import ChainStream
 from ..core.request_handler import BaseRequest
 
 from .interface import CompareResult, Documents
@@ -29,33 +31,65 @@ class Comparator(BaseRequest):
 			'text2': text2,
 		}
 
-		response = self._post(path, params={}, json=data)
+		headers = {
+			'Content-Type': 'application/json',
+		}
+
+		body = json.dumps(data)
+
+		response = self._post(path, fields={}, body=body, headers=headers)
 
 		return self.__build_response(response)
 
 	def urls(self, url1, url2):
 		path = 'compareUrls'
 
-		params = {
+		fields = {
 			'url1': url1,
 			'url2': url2,
 		}
 
-		response = self._get(path, params)
+		response = self._get(path, fields)
 
 		return self.__build_response(response)
 
-	def url_and_text(self, url, text):
+	def url_and_file(self, url, file):
 		path = 'compareUrlwithFile'
 
-		params = {
+		fields = {
 			'url': url,
+			'fileName': file.name,
 		}
 
-		data = {
-			'file1': text,
+		response = self._post(path, fields, body=file)
+		return self.__build_response(response)
+
+	def files(self, file1, file2):
+		path = 'compareFiles'
+
+		sizes = (
+			file1.seek(0, 2),
+			file2.seek(0, 2)
+		)
+
+		file1.seek(0, 0)
+		file2.seek(0, 0)
+
+
+		fields = {
+			'fileName1': file1.name,
+			'fileName2': file2.name,
+			'firstFileSize': sizes[0],
 		}
 
-		response = self._post(path, params, json=data)
+		body = ChainStream(
+			file1,
+			file2,
+		)
 
+		headers = {
+			'Content-Length': sum(sizes),
+		}
+
+		response = self._post(path, fields, body=body, headers=headers)
 		return self.__build_response(response)

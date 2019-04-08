@@ -5,11 +5,11 @@ from .interface import ParseResult
 class Preformator(BaseRequest):
 	def supported_document_structures(self):
 		path = 'supportedDocumentStructures'
-		return self._get(path=path, params={})
+		return self._get(path=path, fields={})
 
 	def supported_document_topics(self):
 		path = 'supportedDocumentTopics'
-		return self._get(path=path, params={})
+		return self._get(path=path, fields={})
 
 	def __build_response(self, response):
 		return ParseResult(
@@ -24,19 +24,16 @@ class Preformator(BaseRequest):
 
 	def file(self, file):
 		path = 'parseFileContent'
-		params = {
+		fields = {
 			'filename': file.name,
 		}
-		files = {
-			file.name: file,
-		}
-		response = self._post(path=path, params=params, files=files)
+		response = self._post(path=path, fields=fields, body=file)
 		return self.__build_response(response)
 
 	def url(self, url):
 		path = 'parse'
-		params = {
+		fields = {
 			'url': url,
 		}
-		response = self._get(path=path, params=params)
+		response = self._get(path=path, fields=fields)
 		return self.__build_response(response)

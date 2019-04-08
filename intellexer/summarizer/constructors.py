@@ -21,11 +21,13 @@ def Item(data):
 
 
 def ConceptTree(data):
+	children = None
+
+	if 'children' in data:
+		children=tuple(ConceptTree(child) for child in data["children"])
+
 	return interface.ConceptTree(
-		children=tuple(
-			ConceptTree(child) for child in data["children"]
-			if 'children' in data
-		),
+		children=children,
 		main_pharse=data['mp'],
 		sentence_ids=data['sentenceIds'],
 		status=data['st'],
@@ -37,18 +39,26 @@ def ConceptTree(data):
 def SummarizeResult(data):
 	concept_tree = None
 	named_entity_tree = None
+	items = None
+	document = None
 
 	if 'conceptTree' in data and data['conceptTree']:
 		concept_tree = ConceptTree(data['conceptTree'])
 
 	if 'namedEntityTree' in data and data['namedEntityTree']:
-		concept_tree = ConceptTree(data['namedEntityTree'])
+		named_entity_tree = ConceptTree(data['namedEntityTree'])
+
+	if 'items' in data and data['items']:
+		items = tuple(Item(i) for i in data['items'])
+
+	if 'summarizerDoc' in data and data['summarizerDoc']:
+		document = Document(data['summarizerDoc'])
 
 	return interface.SummarizeResult(
-		document=data['summarizerDoc'],
+		document=document,
 		structure=data['structure'],
 		topics=data['topics'],
-		items=tuple(data['items']),
+		items=items,
 		total_items_count=data['totalItemsCount'],
 		concept_tree=concept_tree,
 		named_entity_tree=named_entity_tree,
@@ -58,6 +68,7 @@ def SummarizeResult(data):
 def MultiSummarizeResult(data):
 	concept_tree = None
 	named_entity_tree = None
+	related_facts_tree = None
 
 	if 'conceptTree' in data and data['conceptTree']:
 		concept_tree = ConceptTree(data['conceptTree'])

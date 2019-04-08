@@ -15,7 +15,7 @@ class LanguageRecognizer(BaseRequest):
 			) for lang in response["languages"]
 		)
 
-	def recognize(self, text):
+	def text(self, text):
 		path = 'recognizeLanguage'
-		response = self._post(path, params={}, data=text)
+		response = self._post(path, fields={}, body=text)
 		return self.__build_response(response)

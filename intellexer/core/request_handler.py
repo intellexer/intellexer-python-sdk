@@ -1,53 +1,87 @@
-import requests
-from . import urls
+'''
+*docstring*
+'''
+
+import os
+import urllib
+import urllib3
+import json
+import io
 from . import errors
 
 
 class BaseRequest:
+	'''
+	*docstring*
+	'''
 	__slots__ = (
 		'_api_key',
+		'_server',
 	)
 
-	def __init__(self, api_key):
+	http = urllib3.PoolManager()
+
+	def __init__(self, api_key=None, server=None):
+		api_key = api_key or os.environ['INTELLEXER_API_KEY']
+		server = server or os.getenv(
+			'INTELLEXER_SERVER',
+			'http://api.intellexer.com',
+		)
 		self._api_key = api_key
+		self._server = server.rstrip('/')
 
 	def __url(self, path):
-		return urls.base.format(
-			path=path,
-		)
+		return '/'.join((
+			self._server,
+			path,
+		))
 
-	def __params(self, params):
-		params.update({
+	def __fields(self, fields):
+		fields.update({
 			'apikey': self._api_key,
 		})
-		return params
+		return fields
 
 	def __response_handler(self, response, as_json):
-		# print(response.__dict__)
-		response_status = response.status_code
+		decoded_response = io.TextIOWrapper(
+			response,
+			encoding='utf-8',
+		)
 
-		if response_status in range(400, 405):
-			raise errors.BadRequest400
+		if response.status == 200:
+			if as_json:
+				ret = json.load(decoded_response)
+			else:
+				ret = decoded_response.read()
+			response.release_conn()
+			return ret
 
-		if as_json:
-			return response.json()
+		#ret = json.load(decoded_response)
+		#response.release_conn()
+		raise errors.BadRequest400(decoded_response.read())
 
-		return response
-
-	def _get(self, path, params, **kwargs):
-		as_json = kwargs.pop('as_json', True)
-		response = requests.get(
+	def _get(self, path, fields, as_json=True, headers=None):
+		response = self.http.request(
+			method='GET',
 			url=self.__url(path),
-			params=self.__params(params),
-			**kwargs
+			fields=self.__fields(fields),
+			preload_content=False,
+			headers=headers,
 		)
 		return self.__response_handler(response, as_json)
 
-	def _post(self, path, params, **kwargs):
-		as_json = kwargs.pop('as_json', True)
-		response = requests.post(
-			url=self.__url(path),
-			params=self.__params(params),
-			**kwargs
+	def _post(self, path, fields, body, as_json=True, headers=None):
+		url=self.__url(path)
+		fields=self.__fields(fields)
+
+		if fields:
+			url += '?' + urllib.parse.urlencode(fields)
+
+		response = self.http.request(
+			method='POST',
+			url=url,
+			body=body,
+			preload_content=False,
+			headers=headers,
 		)
 		return self.__response_handler(response, as_json)
