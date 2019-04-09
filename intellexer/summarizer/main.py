@@ -6,31 +6,31 @@ from .constructors import SummarizeResult, MultiSummarizeResult
 class Summarizer(BaseRequest):
 	optional_fields = (
 		'structure',
-		'useCache',
 		'wrapConcepts',
 		'summaryRestriction',
 		'textStreamLength',
+		'conceptsRestriction',
+		'returnedTopicsCount',
+	)
+
+	bool_fields = (
+		'useCache',
+		'fullTextTrees',
+		'loadConceptsTree',
+		'loadNamedEntityTree',
+		'usePercentRestriction',
 	)
 
 	def __fields(self, **kwargs):
-		fields = {
-			i: str(kwargs.get(i, False)).lower()
-			for i in (
-				'fullTextTrees',
-				'loadConceptsTree',
-				'loadNamedEntityTree',
-				'usePercentRestriction',
-			)
-		}
+		fields = {}
 
-		fields.update({
-			'conceptsRestriction': kwargs.get('conceptsRestriction', 7),
-			'returnedTopicsCount': kwargs.get('returnedTopicsCount', 2),
-		})
+		for fieldname in self.bool_fields:
+			if fieldname in kwargs:
+				fields[fieldname] = str(kwargs[fieldname]).lower()
 
-		for opt in self.optional_fields:
-			if opt in kwargs:
-				fields[opt] = kwargs[opt]
+		for fieldname in self.optional_fields:
+			if fieldname in kwargs:
+				fields[fieldname] = kwargs[fieldname]
 
 		return fields
 
