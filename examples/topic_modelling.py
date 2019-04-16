@@ -9,20 +9,29 @@ import intellexer_wrapper as intellexer
 topic_modelling = intellexer.TopicModelling(data.INTELLEXER_API_KEY)
 
 print('Trying to use URL:')
-print(topic_modelling.url(
+
+response = topic_modelling.url(
 	url=data.URL,
-))
+)
+
+print(response.data)
 
 print()
 
 print('Trying to use TEXT:')
-print(topic_modelling.text(
+
+response = topic_modelling.text(
 	text=data.TEXT,
-))
+)
+
+print(response.data)
 
 print()
 
 print('Trying to use FILE:')
-print(topic_modelling.file(
+
+response = topic_modelling.file(
 	file=data.FILE1(),
-))
+)
+
+print(response.data)

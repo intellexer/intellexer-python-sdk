@@ -1,30 +1,37 @@
-import json
+import json as _json
 from ..core.request_handler import BaseRequest
-from .constructors import SummarizeResult, MultiSummarizeResult
+from .constructors import SummarizeResult
 
 
 class Summarizer(BaseRequest):
 	optional_fields = (
+		'options',
 		'structure',
-		'wrapConcepts',
-		'summaryRestriction',
 		'textStreamLength',
+		'summaryRestriction',
 		'conceptsRestriction',
 		'returnedTopicsCount',
 	)
 
-	bool_fields = (
+	bool_optional_fields = (
 		'useCache',
+		'wrapConcepts',
 		'fullTextTrees',
 		'loadConceptsTree',
 		'loadNamedEntityTree',
 		'usePercentRestriction',
 	)
 
+	json = True
+
+	@staticmethod
+	def builder(data):
+		return SummarizeResult(data)
+
 	def __fields(self, **kwargs):
 		fields = {}
 
-		for fieldname in self.bool_fields:
+		for fieldname in self.bool_optional_fields:
 			if fieldname in kwargs:
 				fields[fieldname] = str(kwargs[fieldname]).lower()
 
@@ -35,49 +42,49 @@ class Summarizer(BaseRequest):
 		return fields
 
 	def url(self, url, **kwargs):
-		def json(url, **kwargs):
-			path = 'summarize'
+		path = 'summarize'
 
-			fields = {
-				'url': url,
-			}
+		fields = {
+			'url': url,
+		}
 
-			fields.update(self.__fields(**kwargs))
-			return self._get(path=path, fields=fields)
+		fields.update(self.__fields(**kwargs))
 
-		response = json(url, **kwargs)
-		return SummarizeResult(response)
+		return self._get(
+			path=path,
+			fields=fields,
+		)
 
-	def url_post(self, url, **kwargs):
-		def as_json(url, **kwargs):
-			path = 'summarize'
+	def url_post(self, url, options, **kwargs):
+		path = 'summarize'
 
-			fields = {
-				'url': url,
-			}
+		fields = {
+			'url': url,
+		}
 
-			headers = {
-				'Content-Type': 'application/json',
-			}
+		headers = {
+			'Content-Type': 'application/json',
+		}
 
-			if 'options' in kwargs:
-				data = kwargs.pop('options')
-				body = json.dumps(data)
-			else:
-				body = None
+		body = _json.dumps(options)
+		fields.update(self.__fields(**kwargs))
 
-			fields.update(self.__fields(**kwargs))
-			return self._post(path=path, body=body, fields=fields, headers=headers)
-
-		response = as_json(url, **kwargs)
-		return SummarizeResult(response)
+		return self._post(
+			path=path,
+			body=body,
+			fields=fields,
+			headers=headers,
+		)
 
 	def text(self, text, **kwargs):
 		path = 'summarizeText'
-
 		fields = self.__fields(**kwargs)
-		response = self._post(path=path, fields=fields, body=text)
-		return SummarizeResult(response)
+
+		return self._post(
+			path=path,
+			fields=fields,
+			body=text,
+		)
 
 	def file(self, file, **kwargs):
 		path = 'summarizeFileContent'
@@ -88,20 +95,10 @@ class Summarizer(BaseRequest):
 		}
 
 		file.seek(0, 0)
-
 		fields.update(self.__fields(**kwargs))
-		response = self._post(path=path, fields=fields, body=file)
-		return SummarizeResult(response)
 
-	def urls(self, urls, **kwargs):
-		path = 'multiUrlSummary'
-		fields = self.__fields(**kwargs)
-		body = json.dumps(urls)
-
-		headers = {
-			'Content-Type': 'application/json',
-		}
-
-
-		response = self._post(path=path, fields=fields, body=body, headers=headers)
-		return MultiSummarizeResult(response)
+		return self._post(
+			path=path,
+			fields=fields,
+			body=file,
+		)

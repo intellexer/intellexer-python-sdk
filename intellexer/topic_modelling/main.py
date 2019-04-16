@@ -3,6 +3,11 @@ from ..core.request_handler import BaseRequest
 
 class TopicModelling(BaseRequest):
 	__slots__ = BaseRequest.__slots__
+	json = True
+
+	@staticmethod
+	def builder(response):
+		return response
 
 	def url(self, url):
 		path = 'getTopicsFromUrl'

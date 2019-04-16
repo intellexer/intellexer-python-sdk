@@ -1,4 +1,4 @@
-import json
+import json as _json
 from ..core.util import ChainStream
 from ..core.request_handler import BaseRequest
 
@@ -8,7 +8,10 @@ from .interface import CompareResult, Documents
 class Comparator(BaseRequest):
 	__slots__ = BaseRequest.__slots__
 
-	def __build_response(self, response):
+	json = True
+
+	@staticmethod
+	def builder(response):
 		return CompareResult(
 			proximity=response['proximity'],
 			documents=tuple(
@@ -26,6 +29,8 @@ class Comparator(BaseRequest):
 	def text(self, text1, text2):
 		path = 'compareText'
 
+		fields={}
+
 		data = {
 			'text1': text1,
 			'text2': text2,
@@ -35,11 +40,14 @@ class Comparator(BaseRequest):
 			'Content-Type': 'application/json',
 		}
 
-		body = json.dumps(data)
+		body = _json.dumps(data)
 
-		response = self._post(path, fields={}, body=body, headers=headers)
-
-		return self.__build_response(response)
+		return self._post(
+			path=path,
+			fields=fields,
+			body=body,
+			headers=headers,
+		)
 
 	def urls(self, url1, url2):
 		path = 'compareUrls'
@@ -49,9 +57,10 @@ class Comparator(BaseRequest):
 			'url2': url2,
 		}
 
-		response = self._get(path, fields)
-
-		return self.__build_response(response)
+		return self._get(
+			path=path,
+			fields=fields,
+		)
 
 	def url_and_file(self, url, file):
 		path = 'compareUrlwithFile'
@@ -61,8 +70,11 @@ class Comparator(BaseRequest):
 			'fileName': file.name,
 		}
 
-		response = self._post(path, fields, body=file)
-		return self.__build_response(response)
+		return self._post(
+			path=path,
+			fields=fields,
+			body=file,
+		)
 
 	def files(self, file1, file2):
 		path = 'compareFiles'
@@ -91,5 +103,9 @@ class Comparator(BaseRequest):
 			'Content-Length': sum(sizes),
 		}
 
-		response = self._post(path, fields, body=body, headers=headers)
-		return self.__build_response(response)
+		return self._post(
+			path=path,
+			fields=fields,
+			body=body,
+			headers=headers,
+		)

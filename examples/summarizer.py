@@ -9,12 +9,18 @@ import intellexer_wrapper as intellexer
 summarizer = intellexer.Summarizer(data.INTELLEXER_API_KEY)
 
 print('Trying to use URL:')
-print(summarizer.url(data.URL))
+
+response = summarizer.url(
+	url=data.URL,
+)
+
+print(response.data)
 
 print()
 
 print('Trying to use URL_POST:')
-print(summarizer.url_post(
+
+response = summarizer.url_post(
 	url=data.URL,
 	options={
 		"topics": [],
@@ -33,24 +39,36 @@ print(summarizer.url_post(
 			},
 		]
 	}
-))
+)
+
+print(response.data)
 
 print()
 
 print('Trying to use TEXT:')
-print(summarizer.text(data.TEXT))
+
+response = summarizer.text(
+	text=data.TEXT,
+)
+
+print(response.data)
 
 print()
 
 print('Trying to use FILE:')
-print(summarizer.file(data.FILE1()))
 
-print()
+response = summarizer.file(
+	file = data.FILE1()
+)
 
-print('Trying to use URLs:')
-print(summarizer.urls(
-	urls=(
-		data.URL,
-		data.OTHER_URL,
-	)
-))
+print(response.data)
+
+#print()
+
+#print('Trying to use URLs:')
+#print(summarizer.urls(
+#	urls=(
+#		data.URL,
+#		data.OTHER_URL,
+#	)
+#))

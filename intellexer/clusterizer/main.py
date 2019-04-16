@@ -36,7 +36,10 @@ class Clusterizer(BaseRequest):
 # 			]
 # 		}
 
-	def __build_response(self, response):
+	json = True
+
+	@staticmethod
+	def builder(response):
 		concept_tree = ConceptTree(response['conceptTree'])
 
 		return ClusterizeResult(
@@ -52,27 +55,27 @@ class Clusterizer(BaseRequest):
 			'url': url,
 		})
 
-		response = self._get(path, fields)
-
-		return self.__build_response(response)
+		return self._get(
+			path=path,
+			fields=fields,
+		)
 
 	def text(self, text, **kwargs):
 		path = 'clusterizeText'
 		fields = self.__fields(**kwargs)
 
-		response = self._post(path, fields, body=text)
-
-		return self.__build_response(response)
+		return self._post(path, fields, body=text)
 
 	def file(self, file, **kwargs):
 		path = 'clusterizeFileContent'
 		fields = self.__fields(**kwargs)
 
 		fields.update({
-			# 'fileName': '2.txt',
 			'fileName': file.name,
 		})
 
-		response = self._post(path, fields, body=file)
-
-		return self.__build_response(response)
+		return self._post(
+			path=path,
+			fields=fields,
+			body=file,
+		)

@@ -2,6 +2,7 @@ from .clusterizer import Clusterizer
 from .comparator import Comparator
 from .language_recognizer import LanguageRecognizer
 from .linguistic_processor import LinguisticProcessor
+from .multisummarizer import MultiSummarizer
 from .named_entity_recognizer import NamedEntityRecognizer
 from .natural_language_interface import NaturalLanguageInterface
 from .preformator import Preformator
@@ -16,6 +17,7 @@ __all__ = (
 	'Comparator',
 	'LanguageRecognizer',
 	'LinguisticProcessor',
+	'MultiSummarizer',
 	'NamedEntityRecognizer',
 	'NaturalLanguageInterface',
 	'Preformator',

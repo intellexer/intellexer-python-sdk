@@ -9,6 +9,9 @@ import intellexer_wrapper as intellexer
 spell_checker = intellexer.SpellChecker(data.INTELLEXER_API_KEY)
 
 print('Trying to use TEXT:')
-print(spell_checker.text(
+
+response = spell_checker.text(
 	text=data.TEXT,
-))
+)
+
+print(response.data)

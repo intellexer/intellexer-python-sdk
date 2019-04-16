@@ -5,9 +5,10 @@
 import os
 import urllib
 import urllib3
-import json
-import io
-from . import errors
+from . import response_builders
+from . import response_wrapper
+
+
 
 
 class BaseRequest:
@@ -17,6 +18,7 @@ class BaseRequest:
 	__slots__ = (
 		'_api_key',
 		'_server',
+		'_builder',
 	)
 
 	http = urllib3.PoolManager()
@@ -30,6 +32,9 @@ class BaseRequest:
 		self._api_key = api_key
 		self._server = server.rstrip('/')
 
+		builder_function = response_builders.builders[self.json]
+		self._builder = builder_function(self.builder)
+
 	def __url(self, path):
 		return '/'.join((
 			self._server,
@@ -42,46 +47,34 @@ class BaseRequest:
 		})
 		return fields
 
-	def __response_handler(self, response, as_json):
-		decoded_response = io.TextIOWrapper(
+	def __response_handler(self, response):
+		return response_wrapper.Response(
 			response,
-			encoding='utf-8',
+			self._builder,
 		)
 
-		if response.status == 200:
-			if as_json:
-				ret = json.load(decoded_response)
-			else:
-				ret = decoded_response.read()
-			response.release_conn()
-			return ret
-
-		#ret = json.load(decoded_response)
-		#response.release_conn()
-		raise errors.BadRequest400(decoded_response.read())
-
-	def _get(self, path, fields, as_json=True, headers=None):
-		response = self.http.request(
+	def _get(self, path, fields, headers=None):
+		response = lambda: self.http.request(
 			method='GET',
 			url=self.__url(path),
 			fields=self.__fields(fields),
 			preload_content=False,
 			headers=headers,
 		)
-		return self.__response_handler(response, as_json)
+		return self.__response_handler(response)
 
-	def _post(self, path, fields, body, as_json=True, headers=None):
+	def _post(self, path, fields, body, headers=None):
 		url=self.__url(path)
 		fields=self.__fields(fields)
 
 		if fields:
 			url += '?' + urllib.parse.urlencode(fields)
 
-		response = self.http.request(
+		response = lambda: self.http.request(
 			method='POST',
 			url=url,
 			body=body,
 			preload_content=False,
 			headers=headers,
 		)
-		return self.__response_handler(response, as_json)
+		return self.__response_handler(response)
