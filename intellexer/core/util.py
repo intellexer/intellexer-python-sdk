@@ -29,8 +29,6 @@ class ChainStream(io.RawIOBase):
 		chunk = self._read_next_chunk(buffer_length)
 		while len(chunk) == 0:
 			# move to next stream
-#			if self.stream is not None:
-#				self.stream.close()
 			try:
 				self.stream = next(self.stream_iter)
 				chunk = self._read_next_chunk(buffer_length)
