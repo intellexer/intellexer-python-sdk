@@ -6,8 +6,9 @@ import data
 #import intellexer
 import intellexer_wrapper as intellexer
 
-sentiment_analyzer = intellexer.SentimentAnalyzer(data.INTELLEXER_API_KEY)
+print('Running: sentiment_analyzer')
 
+sentiment_analyzer = intellexer.SentimentAnalyzer(data.INTELLEXER_API_KEY)
 
 print('ontologies')
 
@@ -27,3 +28,5 @@ response = sentiment_analyzer.texts(
 )
 
 print(response.data)
+
+print()

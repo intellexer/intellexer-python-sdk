@@ -6,8 +6,9 @@ import data
 #import intellexer
 import intellexer_wrapper as intellexer
 
-preformator = intellexer.Preformator(data.INTELLEXER_API_KEY)
+print('Running: preformator')
 
+preformator = intellexer.Preformator(data.INTELLEXER_API_KEY)
 
 print('supported_document_structures')
 

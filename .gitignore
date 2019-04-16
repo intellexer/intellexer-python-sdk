@@ -1,3 +1,7 @@
 .spyproject/
 *.pyc
 __pycache__/
+build/
+dist/
+intellexer.egg-info/
+

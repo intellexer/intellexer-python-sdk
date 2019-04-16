@@ -25,8 +25,8 @@ class Summarizer(BaseRequest):
 	json = True
 
 	@staticmethod
-	def builder(data):
-		return SummarizeResult(data)
+	def builder(response):
+		return SummarizeResult(response)
 
 	def __fields(self, **kwargs):
 		fields = {}

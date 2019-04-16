@@ -9,10 +9,10 @@ class Response:
 		'__response',
 	)
 
-	def __init__(self, request_functin, response_builder):
+	def __init__(self, response_builder, request_functin=None, response=None):
 		self.__request_functin = request_functin
 		self.__response_builder = response_builder
-		self.__response = None
+		self.__response = response
 
 	def __response_handler(self):
 		try:

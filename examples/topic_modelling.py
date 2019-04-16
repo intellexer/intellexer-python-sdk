@@ -6,6 +6,8 @@ import data
 #import intellexer
 import intellexer_wrapper as intellexer
 
+print('Running: topic_modelling')
+
 topic_modelling = intellexer.TopicModelling(data.INTELLEXER_API_KEY)
 
 print('Trying to use URL:')
@@ -35,3 +37,5 @@ response = topic_modelling.file(
 )
 
 print(response.data)
+
+print()

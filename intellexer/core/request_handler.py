@@ -49,8 +49,8 @@ class BaseRequest:
 
 	def __response_handler(self, response):
 		return response_wrapper.Response(
-			response,
-			self._builder,
+			response_builder=self._builder,
+			request_functin=response,
 		)
 
 	def _get(self, path, fields, headers=None):

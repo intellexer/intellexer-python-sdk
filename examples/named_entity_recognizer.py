@@ -6,6 +6,8 @@ import data
 #import intellexer
 import intellexer_wrapper as intellexer
 
+print('Running: named_entity_recognizer')
+
 named_entity_recognizer = intellexer.NamedEntityRecognizer(data.INTELLEXER_API_KEY)
 
 print('Trying to use URL:')
@@ -44,3 +46,5 @@ response = named_entity_recognizer.file(
 )
 
 print(response.data)
+
+print()
