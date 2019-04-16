@@ -3,6 +3,12 @@ from .constructors import SpellCheckerResult
 
 
 class SpellChecker(BaseRequest):
+	json = True
+
+	@staticmethod
+	def builder(response):
+		return SpellCheckerResult(response)
+
 	def text(self, text, **kwargs):
 		path = 'checkTextSpelling'
 
@@ -15,6 +21,8 @@ class SpellChecker(BaseRequest):
 			'separateLines': str(kwargs.get('wrapConcepts', False)).lower(),
 		}
 
-		response = self._post(path, fields, body=text)
-		return SpellCheckerResult(response)
-
+		return self._post(
+			path=path,
+			fields=fields,
+			body=text,
+		)

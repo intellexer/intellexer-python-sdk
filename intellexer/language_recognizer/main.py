@@ -6,7 +6,10 @@ from .interface import Language
 class LanguageRecognizer(BaseRequest):
 	__slots__ = BaseRequest.__slots__
 
-	def __build_response(self, response):
+	json = True
+
+	@staticmethod
+	def builder(response):
 		return tuple(
 			Language(
 				language=lang['language'],
@@ -17,5 +20,9 @@ class LanguageRecognizer(BaseRequest):
 
 	def text(self, text):
 		path = 'recognizeLanguage'
-		response = self._post(path, fields={}, body=text)
-		return self.__build_response(response)
+
+		return self._post(
+			path=path,
+			fields={},
+			body=text,
+		)

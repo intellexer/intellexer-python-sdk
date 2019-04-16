@@ -3,15 +3,26 @@ from .interface import ParseResult
 
 
 class Preformator(BaseRequest):
-	def supported_document_structures(self):
+	json = True
+
+	def info_supported_document_structures(self):
 		path = 'supportedDocumentStructures'
-		return self._get(path=path, fields={})
 
-	def supported_document_topics(self):
+		return self._get(
+			path=path,
+			fields={},
+		)
+
+	def info_supported_document_topics(self):
 		path = 'supportedDocumentTopics'
-		return self._get(path=path, fields={})
 
-	def __build_response(self, response):
+		return self._get(
+			path=path,
+			fields={},
+		)
+
+	@staticmethod
+	def builder(response):
 		return ParseResult(
 			structure=response['structure'],
 			topics=response['topics'] or [],
@@ -24,16 +35,25 @@ class Preformator(BaseRequest):
 
 	def file(self, file):
 		path = 'parseFileContent'
+
 		fields = {
 			'filename': file.name,
 		}
-		response = self._post(path=path, fields=fields, body=file)
-		return self.__build_response(response)
+
+		return self._post(
+			path=path,
+			fields=fields,
+			body=file,
+		)
 
 	def url(self, url):
 		path = 'parse'
+
 		fields = {
 			'url': url,
 		}
-		response = self._get(path=path, fields=fields)
-		return self.__build_response(response)
+
+		return self._get(
+			path=path,
+			fields=fields,
+		)

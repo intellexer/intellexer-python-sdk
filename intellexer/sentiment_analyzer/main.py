@@ -1,7 +1,7 @@
 '''*docstring*
 '''
 
-import json
+import json as _json
 from ..core.request_handler import BaseRequest
 from .constructors import SentimentAnalyzerResult
 
@@ -9,18 +9,26 @@ from .constructors import SentimentAnalyzerResult
 class SentimentAnalyzer(BaseRequest):
 	'''*docstring*
 	'''
+	json = True
+
+	@staticmethod
+	def builder(response):
+		return SentimentAnalyzerResult(response)
 
 	def ontologies(self):
 		'''*docstring*
 		'''
 		path = 'sentimentAnalyzerOntologies'
-		response = self._get(path=path, fields={})
-		return response
+		return self._get(
+			path=path,
+			fields={},
+		)
 
 	def texts(self, texts, **kwargs):
 		'''*docstring*
 		'''
 		path = 'analyzeSentiments'
+
 		fields = {
 			'loadSentences': str(kwargs.get('loadSentences', False)).lower(),
 		}
@@ -39,7 +47,6 @@ class SentimentAnalyzer(BaseRequest):
 			} for number, text in enumerate(texts)
 		]
 
-		body = json.dumps(data)
+		body = _json.dumps(data)
 
-		response = self._post(path=path, fields=fields, body=body, headers=headers)
-		return SentimentAnalyzerResult(response)
+		return self._post(path=path, fields=fields, body=body, headers=headers)

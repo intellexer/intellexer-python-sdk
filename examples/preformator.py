@@ -10,20 +10,37 @@ preformator = intellexer.Preformator(data.INTELLEXER_API_KEY)
 
 
 print('supported_document_structures')
-print(preformator.supported_document_structures())
 
+response = preformator.info_supported_document_structures()
+
+print(response.json)
+
+print()
 
 print('supported_document_topics')
-print(preformator.supported_document_topics())
 
+response = preformator.info_supported_document_topics()
+
+print(response.json)
+
+print()
 
 print('Trying to use URL:')
-print(preformator.url(
-	url=data.URL,
-))
 
+response = preformator.url(
+	url=data.URL,
+)
+
+print(response.data)
+
+print()
 
 print('Trying to use FILE:')
-print(preformator.file(
+
+response = preformator.file(
 	file=data.FILE1(),
-))
+)
+
+print(response.data)
+
+print()
