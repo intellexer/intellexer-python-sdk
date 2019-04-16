@@ -47,6 +47,16 @@ class BaseRequest:
 		})
 		return fields
 
+	@classmethod
+	def from_raw(cls, raw_data):
+		builder_function = response_builders.builders[cls.json]
+		response_builder = builder_function(cls.builder)
+
+		return response_wrapper.Response(
+			response_builder=response_builder,
+			response=raw_data,
+		)
+
 	def __response_handler(self, response):
 		return response_wrapper.Response(
 			response_builder=self._builder,
