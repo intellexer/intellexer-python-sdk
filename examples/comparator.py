@@ -6,6 +6,7 @@ import data
 #import intellexer
 import intellexer_wrapper as intellexer
 
+print('Running: comparator')
 
 comparator = intellexer.Comparator(data.INTELLEXER_API_KEY)
 
@@ -26,6 +27,8 @@ response = comparator.text(
 	text1=data.TEXT,
 	text2=data.OTHER_TEXT,
 )
+
+print(response.data)
 
 print()
 
@@ -48,4 +51,6 @@ response = comparator.files(
 )
 
 print(response.data)
+
+print()
 

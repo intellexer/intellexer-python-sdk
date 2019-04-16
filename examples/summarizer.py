@@ -6,6 +6,8 @@ import data
 #import intellexer
 import intellexer_wrapper as intellexer
 
+print('Running: summarizer')
+
 summarizer = intellexer.Summarizer(data.INTELLEXER_API_KEY)
 
 print('Trying to use URL:')
@@ -63,12 +65,4 @@ response = summarizer.file(
 
 print(response.data)
 
-#print()
-
-#print('Trying to use URLs:')
-#print(summarizer.urls(
-#	urls=(
-#		data.URL,
-#		data.OTHER_URL,
-#	)
-#))
+print()

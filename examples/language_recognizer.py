@@ -6,6 +6,8 @@ import data
 #import intellexer
 import intellexer_wrapper as intellexer
 
+print('Running: language_recognizer')
+
 language_recognizer = intellexer.LanguageRecognizer(data.INTELLEXER_API_KEY)
 
 print('Trying to use TEXT:')
@@ -15,3 +17,5 @@ response = language_recognizer.text(
 )
 
 print(response.data)
+
+print()
