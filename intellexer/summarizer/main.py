@@ -4,6 +4,9 @@ from .constructors import SummarizeResult
 
 
 class Summarizer(BaseRequest):
+	__slots__ = BaseRequest.__slots__
+	json = True
+
 	optional_fields = (
 		'options',
 		'structure',
@@ -21,8 +24,6 @@ class Summarizer(BaseRequest):
 		'loadNamedEntityTree',
 		'usePercentRestriction',
 	)
-
-	json = True
 
 	@staticmethod
 	def builder(response):

@@ -5,7 +5,6 @@ from .constructors import Sentence
 
 class LinguisticProcessor(BaseRequest):
 	__slots__ = BaseRequest.__slots__
-
 	json = True
 
 	@staticmethod

@@ -5,7 +5,6 @@ from .interface import Language
 
 class LanguageRecognizer(BaseRequest):
 	__slots__ = BaseRequest.__slots__
-
 	json = True
 
 	@staticmethod

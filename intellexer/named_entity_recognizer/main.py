@@ -3,6 +3,7 @@ from .constructors import NamedEntityRecognizerResult
 
 
 class NamedEntityRecognizer(BaseRequest):
+	__slots__ = BaseRequest.__slots__
 	json = True
 
 	def __fields(self, **kwargs):

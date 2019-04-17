@@ -2,9 +2,7 @@
 
 # mock data
 import data
-
-#import intellexer
-import intellexer_wrapper as intellexer
+import intellexer
 
 print('Running: language_recognizer')
 
