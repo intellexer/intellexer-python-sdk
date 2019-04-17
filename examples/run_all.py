@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import data
-import intellexer_wrapper
+import intellexer
 
 import clusterizer
 import comparator
@@ -15,4 +15,3 @@ import sentiment_analyzer
 import spell_checker
 import summarizer
 import topic_modelling
-

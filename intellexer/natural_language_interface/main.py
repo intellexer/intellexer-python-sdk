@@ -2,6 +2,7 @@ from ..core.request_handler import BaseRequest
 
 
 class NaturalLanguageInterface(BaseRequest):
+	__slots__ = BaseRequest.__slots__
 	json = False
 
 	@staticmethod

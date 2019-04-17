@@ -2,9 +2,7 @@
 
 # mock data
 import data
-
-#import intellexer
-import intellexer_wrapper as intellexer
+import intellexer
 
 multisummarizer = intellexer.MultiSummarizer(data.INTELLEXER_API_KEY)
 

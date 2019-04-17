@@ -7,7 +7,6 @@ from .interface import CompareResult, Documents
 
 class Comparator(BaseRequest):
 	__slots__ = BaseRequest.__slots__
-
 	json = True
 
 	@staticmethod

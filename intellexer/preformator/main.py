@@ -3,6 +3,7 @@ from .interface import ParseResult
 
 
 class Preformator(BaseRequest):
+	__slots__ = BaseRequest.__slots__
 	json = True
 
 	def info_supported_document_structures(self):

@@ -2,9 +2,7 @@
 
 # mock data
 import data
-
-#import intellexer
-import intellexer_wrapper as intellexer
+import intellexer
 
 clusterizer = intellexer.Clusterizer(data.INTELLEXER_API_KEY)
 

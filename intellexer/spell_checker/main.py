@@ -3,6 +3,7 @@ from .constructors import SpellCheckerResult
 
 
 class SpellChecker(BaseRequest):
+	__slots__ = BaseRequest.__slots__
 	json = True
 
 	@staticmethod
